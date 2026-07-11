@@ -7,6 +7,7 @@ export default function SetupForm() {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
+    setup_secret: "",
     company_name: "",
     admin_name: "",
     admin_email: "",
@@ -37,6 +38,12 @@ export default function SetupForm() {
 
   return (
     <form onSubmit={submit} className="card p-6 space-y-4">
+      <div>
+        <label className="label">Codice setup *</label>
+        <input type="password" className="input" value={form.setup_secret}
+          onChange={(e) => set("setup_secret", e.target.value)} required minLength={16}
+          autoComplete="off" placeholder="Codice configurato sul server" />
+      </div>
       <div>
         <label className="label">Nome azienda *</label>
         <input className="input" value={form.company_name}

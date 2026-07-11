@@ -22,10 +22,14 @@
 - [x] Aggiungere approvazione e contestazione report da admin
 - [x] Mostrare utenti e log invii in dashboard admin
 
-## Da fare per produzione cloud
+## Produzione cloud
 
-- [ ] Migrazione stack a Next.js + TypeScript + Tailwind
-- [ ] Supabase Auth
-- [ ] Supabase PostgreSQL
-- [ ] Supabase Storage
-- [ ] Row Level Security per company/admin/operatore
+- [x] Migrazione stack a Next.js + TypeScript + Tailwind
+- [x] Supabase Auth
+- [x] Supabase PostgreSQL
+- [x] Supabase Storage con bucket e policy ripetibili
+- [x] Row Level Security per company/admin/operatore
+- [x] PWA con cache limitata agli asset pubblici
+- [x] Header HTTP di sicurezza e setup iniziale protetto
+- [ ] Collaudo end-to-end sull'ambiente Supabase/Netlify definitivo
+- [ ] Configurazione backup, retention GDPR e monitoraggio alert

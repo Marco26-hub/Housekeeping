@@ -4,27 +4,30 @@ import { revalidatePath } from "next/cache";
 
 export default async function TemplatesAdmin() {
   const { profile, sb } = await requireAdmin();
-  const { data: templates } = await sb
+  const { data: templates, error: loadError } = await sb
     .from("report_templates")
     .select("id, name, description, is_default, template_tasks(count)")
     .eq("company_id", profile.company_id)
     .order("is_default", { ascending: false });
+  if (loadError) throw new Error(`Caricamento template fallito: ${loadError.message}`);
 
   async function create(fd: FormData) {
     "use server";
     const { profile, sb } = await requireAdmin();
-    await sb.from("report_templates").insert({
+    const { error } = await sb.from("report_templates").insert({
       company_id: profile.company_id,
       name: String(fd.get("name") ?? "").trim(),
       description: String(fd.get("description") ?? "") || null
     });
+    if (error) throw new Error(`Creazione template fallita: ${error.message}`);
     revalidatePath("/admin/templates");
   }
 
   async function remove(fd: FormData) {
     "use server";
     const { sb } = await requireAdmin();
-    await sb.from("report_templates").delete().eq("id", String(fd.get("id")));
+    const { error } = await sb.from("report_templates").delete().eq("id", String(fd.get("id")));
+    if (error) throw new Error(`Eliminazione template fallita: ${error.message}`);
     revalidatePath("/admin/templates");
   }
 

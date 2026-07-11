@@ -4,29 +4,32 @@ import { revalidatePath } from "next/cache";
 
 export default async function PropertiesAdmin() {
   const { profile, sb } = await requireAdmin();
-  const { data: properties } = await sb
+  const { data: properties, error: loadError } = await sb
     .from("properties")
     .select("*")
     .eq("company_id", profile.company_id)
     .order("client_name");
+  if (loadError) throw new Error(`Caricamento immobili fallito: ${loadError.message}`);
 
   async function create(fd: FormData) {
     "use server";
     const { profile, sb } = await requireAdmin();
-    await sb.from("properties").insert({
+    const { error } = await sb.from("properties").insert({
       company_id: profile.company_id,
       client_name: String(fd.get("client_name") ?? "").trim(),
       address: String(fd.get("address") ?? "").trim(),
       property_type: String(fd.get("property_type") ?? "appartamento"),
       notes: String(fd.get("notes") ?? "") || null
     });
+    if (error) throw new Error(`Creazione immobile fallita: ${error.message}`);
     revalidatePath("/admin/properties");
   }
 
   async function remove(fd: FormData) {
     "use server";
     const { sb } = await requireAdmin();
-    await sb.from("properties").delete().eq("id", String(fd.get("id")));
+    const { error } = await sb.from("properties").delete().eq("id", String(fd.get("id")));
+    if (error) throw new Error(`Eliminazione immobile fallita: ${error.message}`);
     revalidatePath("/admin/properties");
   }
 

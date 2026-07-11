@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFFont, type PDFPage, type RGB } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFFont, type RGB } from "pdf-lib";
 import { PROPERTY_TYPES, ANOMALY_CODES, STATUS_LABELS, PHOTO_KINDS } from "./constants";
 import { formatDate, formatDateTime } from "./utils";
 import type { Report, Company } from "./database.types";

@@ -1,14 +1,15 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { publicSupabaseConfig, serviceRoleKey } from "@/lib/env";
 
 export function supabaseServer() {
   const store = cookies();
+  const config = publicSupabaseConfig();
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    config.url,
+    config.anonKey,
     {
-      db: { schema: "cleaning" },
       cookies: {
         getAll() {
           return store.getAll();
@@ -28,9 +29,10 @@ export function supabaseServer() {
 }
 
 export function supabaseAdmin() {
+  const config = publicSupabaseConfig();
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { db: { schema: "cleaning" }, auth: { persistSession: false } }
+    config.url,
+    serviceRoleKey(),
+    { auth: { persistSession: false, autoRefreshToken: false } }
   );
 }

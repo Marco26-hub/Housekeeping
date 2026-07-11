@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Danke | The Blondes Cleaning</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <style>
+        body { background: var(--black); color: var(--white); display: flex; flex-direction: column; min-height: 100vh; }
+        .thanks-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 4rem 1.5rem; text-align: center; position: relative; }
+        .thanks-wrap::before { content: 'TBC'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--serif); font-size: clamp(8rem, 20vw, 18rem); font-weight: 700; color: rgba(198, 169, 107, 0.06); white-space: nowrap; pointer-events: none; letter-spacing: -0.04em; }
+        .thanks-inner { position: relative; z-index: 1; max-width: 560px; }
+        .thanks-check { width: 72px; height: 72px; border: 1.5px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--gold); font-size: 1.5rem; font-family: var(--serif); font-style: italic; }
+        .thanks-label { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; display: block; font-weight: 600; }
+        .thanks-inner h1 { color: var(--white); font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1.25rem; }
+        .thanks-inner h1 em { color: var(--gold); }
+        .thanks-inner p { color: rgba(255,255,255,0.72); font-size: 1rem; line-height: 1.75; margin-bottom: 2.5rem; }
+        .thanks-back { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--gold); border-bottom: 1px solid rgba(198, 169, 107, 0.45); padding-bottom: 0.3rem; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; font-weight: 600; }
+        .thanks-back:hover { color: var(--gold-light); }
+    </style>
+</head>
+<body>
+    <main class="thanks-wrap">
+        <div class="thanks-inner">
+            <div class="thanks-check">✓</div>
+            <span class="thanks-label">Anfrage erhalten</span>
+            <h1>Vielen Dank. <em>Wir melden uns innerhalb von 24 Stunden.</em></h1>
+            <p>Wir haben Ihre Anfrage erhalten und prüfen sie bereits. Antwort innerhalb von 24 Stunden (Mo–Sa) an die angegebene E-Mail-Adresse.</p>
+            <a href="/de/" class="thanks-back">← Zurück zur Startseite</a>
+        </div>
+    </main>
+</body>
+</html>

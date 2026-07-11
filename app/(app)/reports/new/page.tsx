@@ -5,11 +5,12 @@ import Link from "next/link";
 
 export default async function NewReportPage() {
   const { profile, sb } = await requireUser();
-  const { data: templates } = await sb
+  const { data: templates, error: templatesError } = await sb
     .from("report_templates")
     .select("id, name, description, is_default")
     .eq("company_id", profile.company_id)
     .order("is_default", { ascending: false });
+  if (templatesError) throw new Error(`Caricamento template fallito: ${templatesError.message}`);
 
   async function createWithTemplate(formData: FormData) {
     "use server";
@@ -30,12 +31,20 @@ export default async function NewReportPage() {
     if (error || !report) throw new Error(error?.message);
 
     if (templateId) {
-      const { data: tasks } = await sb.from("template_tasks")
+      const { data: tasks, error: tasksError } = await sb.from("template_tasks")
         .select("section, label, sort_order").eq("template_id", templateId);
+      if (tasksError) {
+        await sb.from("reports").delete().eq("id", report.id);
+        throw new Error(`Caricamento attività template fallito: ${tasksError.message}`);
+      }
       if (tasks?.length) {
-        await sb.from("report_tasks").insert(
+        const { error: insertTasksError } = await sb.from("report_tasks").insert(
           tasks.map((t) => ({ report_id: report.id, section: t.section, label: t.label, sort_order: t.sort_order, done: false }))
         );
+        if (insertTasksError) {
+          await sb.from("reports").delete().eq("id", report.id);
+          throw new Error(`Creazione checklist fallita: ${insertTasksError.message}`);
+        }
       }
     }
 

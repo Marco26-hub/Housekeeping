@@ -1,19 +1,20 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { publicSupabaseConfig } from "@/lib/env";
 
-const PUBLIC = ["/login", "/setup", "/api/setup", "/auth/callback", "/manifest.webmanifest", "/sw.js", "/icons", "/_next"];
+const PUBLIC = ["/", "/housekeeping", "/login", "/setup", "/api/setup", "/api/health", "/auth/callback", "/manifest.webmanifest", "/sw.js", "/icons", "/_next"];
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const url = req.nextUrl;
 
-  if (PUBLIC.some((p) => url.pathname.startsWith(p))) return res;
+  if (url.pathname === "/" || PUBLIC.some((p) => p !== "/" && url.pathname.startsWith(p))) return res;
 
+  const config = publicSupabaseConfig();
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "placeholder-key",
+    config.url,
+    config.anonKey,
     {
-      db: { schema: "cleaning" },
       cookies: {
         getAll: () => req.cookies.getAll(),
         setAll: (c: { name: string; value: string; options?: CookieOptions }[]) =>
@@ -32,7 +33,7 @@ export async function middleware(req: NextRequest) {
       .select("role")
       .eq("id", user.id)
       .single();
-    if (prof?.role !== "admin") return NextResponse.redirect(new URL("/", req.url));
+    if (prof?.role !== "admin") return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   return res;

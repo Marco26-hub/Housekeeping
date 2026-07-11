@@ -4,25 +4,29 @@ import { revalidatePath } from "next/cache";
 
 export default async function TemplateEdit({ params }: { params: { id: string } }) {
   const { sb } = await requireAdmin();
-  const { data: template } = await sb.from("report_templates").select("*").eq("id", params.id).single();
-  const { data: tasks } = await sb.from("template_tasks").select("*").eq("template_id", params.id).order("section").order("sort_order");
+  const { data: template, error: templateError } = await sb.from("report_templates").select("*").eq("id", params.id).single();
+  if (templateError) throw new Error(`Caricamento template fallito: ${templateError.message}`);
+  const { data: tasks, error: tasksError } = await sb.from("template_tasks").select("*").eq("template_id", params.id).order("section").order("sort_order");
+  if (tasksError) throw new Error(`Caricamento attività fallito: ${tasksError.message}`);
 
   async function addTask(fd: FormData) {
     "use server";
     const { sb } = await requireAdmin();
-    await sb.from("template_tasks").insert({
+    const { error } = await sb.from("template_tasks").insert({
       template_id: params.id,
       section: String(fd.get("section")),
       label: String(fd.get("label") ?? "").trim(),
       sort_order: Number(fd.get("sort_order") || 0)
     });
+    if (error) throw new Error(`Creazione attività fallita: ${error.message}`);
     revalidatePath(`/admin/templates/${params.id}`);
   }
 
   async function removeTask(fd: FormData) {
     "use server";
     const { sb } = await requireAdmin();
-    await sb.from("template_tasks").delete().eq("id", String(fd.get("id")));
+    const { error } = await sb.from("template_tasks").delete().eq("id", String(fd.get("id")));
+    if (error) throw new Error(`Eliminazione attività fallita: ${error.message}`);
     revalidatePath(`/admin/templates/${params.id}`);
   }
 

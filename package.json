@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "node --check public/sw.js && vitest run",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
     "test:watch": "vitest"
   },
   "dependencies": {

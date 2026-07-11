@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="600" height="160">
+
+  <!-- "The Blondes" — italic serif, gold, premium -->
+  <text
+    x="300"
+    y="78"
+    text-anchor="middle"
+    font-family="'Didot', 'Bodoni 72', 'Playfair Display', Georgia, serif"
+    font-style="italic"
+    font-size="74"
+    fill="#C6A96B"
+    letter-spacing="-1"
+    font-weight="400"
+  >The Blondes</text>
+
+  <!-- Thin gold rule with breathing room -->
+  <line x1="180" y1="98" x2="420" y2="98" stroke="#C6A96B" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- "CLEANING" — tracked sans, white, refined -->
+  <text
+    x="300"
+    y="132"
+    text-anchor="middle"
+    font-family="'Helvetica Neue', 'Inter', Arial, sans-serif"
+    font-size="22"
+    fill="#FFFFFF"
+    letter-spacing="14"
+    opacity="0.95"
+    font-weight="300"
+  >CLEANING</text>
+
+</svg>

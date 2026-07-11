@@ -22,13 +22,17 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (!rl.allowed) return NextResponse.json({ error: "too_many_requests" }, { status: 429, headers: rateLimitHeaders(rl) });
 
   const { profile, sb } = await requireUser();
-  const { data: report } = await sb.from("reports").select("*").eq("id", parsed.data.id).single();
+  const { data: report, error: reportError } = await sb.from("reports").select("*").eq("id", parsed.data.id).single();
+  if (reportError && reportError.code !== "PGRST116") {
+    routeLog.error("Failed to load report", reportError, { reportId: parsed.data.id });
+    return NextResponse.json({ error: "report_load_failed" }, { status: 503 });
+  }
   if (!report) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (profile.role !== "admin" && report.operator_id !== profile.id) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const [{ data: operator }, { data: company }, { data: tasks }, { data: anomalies }, { data: photos }, { data: signatures }] = await Promise.all([
+  const related = await Promise.all([
     sb.from("profiles").select("full_name").eq("id", report.operator_id).single(),
     sb.from("companies").select("*").eq("id", report.company_id).single(),
     sb.from("report_tasks").select("section, label, done, sort_order").eq("report_id", report.id).order("section").order("sort_order"),
@@ -36,13 +40,25 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     sb.from("report_photos").select("kind, storage_path, notes").eq("report_id", report.id),
     sb.from("report_signatures").select("kind, data_url").eq("report_id", report.id)
   ]);
+  const relatedError = related.find((result) => result.error)?.error;
+  if (relatedError) {
+    routeLog.error("Failed to load PDF dependencies", relatedError, { reportId: report.id });
+    return NextResponse.json({ error: "pdf_dependencies_failed" }, { status: 503 });
+  }
+  const [operatorResult, companyResult, tasksResult, anomaliesResult, photosResult, signaturesResult] = related;
+  const operator = operatorResult.data;
+  const company = companyResult.data;
+  const tasks = tasksResult.data;
+  const anomalies = anomaliesResult.data;
+  const photos = photosResult.data;
+  const signatures = signaturesResult.data;
 
   // download photo bytes via service role
   const admin = supabaseAdmin();
   interface PhotoRow { kind: string; storage_path: string; notes?: string | null }
   const photoBytes = await Promise.all((photos ?? []).map(async (p: PhotoRow) => {
-    const { data } = await admin.storage.from("report-photos").download(p.storage_path);
-    if (!data) return null;
+    const { data, error } = await admin.storage.from("report-photos").download(p.storage_path);
+    if (error || !data) throw new Error(`photo_download_failed:${p.storage_path}:${error?.message ?? "empty_file"}`);
     const ab = await data.arrayBuffer();
     const raw = new Uint8Array(ab);
     const optimized = await optimizeForPdf(raw);
@@ -69,9 +85,18 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: upErr.message }, { status: 500 });
   }
 
-  const { data: signed } = await admin.storage.from("report-pdfs").createSignedUrl(path, 60 * 60 * 24 * 7);
-  await sb.from("reports").update({ pdf_url: path }).eq("id", report.id);
+  const { data: signed, error: signedError } = await admin.storage.from("report-pdfs").createSignedUrl(path, 60 * 60 * 24 * 7);
+  if (signedError || !signed?.signedUrl) {
+    routeLog.error("Failed to sign PDF URL", signedError ?? new Error("missing signed URL"), { reportId: report.id });
+    return NextResponse.json({ error: "pdf_sign_failed" }, { status: 500 });
+  }
+  const { error: updateError } = await sb.from("reports").update({ pdf_url: path }).eq("id", report.id);
+  if (updateError) {
+    await admin.storage.from("report-pdfs").remove([path]);
+    routeLog.error("Failed to link PDF to report", updateError, { reportId: report.id });
+    return NextResponse.json({ error: "pdf_link_failed" }, { status: 500 });
+  }
 
   routeLog.info("PDF generated", { reportId: report.id });
-  return NextResponse.json({ url: signed?.signedUrl, path });
+  return NextResponse.json({ url: signed.signedUrl, path });
 }

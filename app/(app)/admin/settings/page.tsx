@@ -3,12 +3,13 @@ import { revalidatePath } from "next/cache";
 
 export default async function SettingsAdmin() {
   const { profile, sb } = await requireAdmin();
-  const { data: company } = await sb.from("companies").select("*").eq("id", profile.company_id).single();
+  const { data: company, error: companyError } = await sb.from("companies").select("*").eq("id", profile.company_id).single();
+  if (companyError) throw new Error(`Caricamento azienda fallito: ${companyError.message}`);
 
   async function save(fd: FormData) {
     "use server";
     const { profile, sb } = await requireAdmin();
-    await sb.from("companies").update({
+    const { error } = await sb.from("companies").update({
       name: String(fd.get("name") ?? "").trim(),
       admin_email: String(fd.get("admin_email") ?? "").trim() || null,
       manager_whatsapp_number: String(fd.get("manager_whatsapp_number") ?? "").trim() || null,
@@ -16,6 +17,7 @@ export default async function SettingsAdmin() {
       telegram_chat_id: String(fd.get("telegram_chat_id") ?? "").trim() || null,
       default_send_channel: String(fd.get("default_send_channel") ?? "whatsapp")
     }).eq("id", profile.company_id);
+    if (error) throw new Error(`Salvataggio impostazioni fallito: ${error.message}`);
     revalidatePath("/admin/settings");
   }
 

@@ -5,6 +5,7 @@ import { checkRateLimit, rateLimitHeaders } from "@/lib/rate-limit";
 import { logger } from "@/lib/logger";
 import { formatDate } from "@/lib/utils";
 import { z } from "zod";
+import { appUrl } from "@/lib/env";
 
 export const runtime = "nodejs";
 
@@ -21,28 +22,33 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (!rl.allowed) return NextResponse.json({ error: "too_many_requests" }, { status: 429, headers: rateLimitHeaders(rl) });
 
   const { profile, sb } = await requireUser();
-  const { data: report } = await sb.from("reports").select("*").eq("id", parsed.data.id).single();
+  const { data: report, error: reportError } = await sb.from("reports").select("*").eq("id", parsed.data.id).single();
+  if (reportError && reportError.code !== "PGRST116") return NextResponse.json({ error: "report_load_failed" }, { status: 503 });
   if (!report) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (profile.role !== "admin" && report.operator_id !== profile.id) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const { data: company } = await sb.from("companies").select("telegram_chat_id, name").eq("id", report.company_id).single();
+  const { data: company, error: companyError } = await sb.from("companies").select("telegram_chat_id, name").eq("id", report.company_id).single();
+  if (companyError) return NextResponse.json({ error: "company_load_failed" }, { status: 503 });
   const chatId = company?.telegram_chat_id;
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!chatId || !token) return NextResponse.json({ error: "telegram_not_configured" }, { status: 400 });
 
   if (!report.pdf_url) {
-    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/reports/${report.id}/pdf`, {
+    const pdfResponse = await fetch(`${appUrl()}/api/reports/${report.id}/pdf`, {
       method: "POST",
       headers: { cookie: (await import("next/headers")).headers().get("cookie") ?? "" }
     });
+    if (!pdfResponse.ok) return NextResponse.json({ error: "pdf_failed" }, { status: 502 });
   }
 
   const admin = supabaseAdmin();
-  const { data: r2 } = await admin.from("reports").select("pdf_url").eq("id", report.id).single();
-  const { data: blob } = await admin.storage.from("report-pdfs").download(r2!.pdf_url!);
-  const buf = Buffer.from(await blob!.arrayBuffer());
+  const { data: r2, error: pdfRowError } = await admin.from("reports").select("pdf_url").eq("id", report.id).single();
+  if (pdfRowError || !r2?.pdf_url) return NextResponse.json({ error: "pdf_not_linked" }, { status: 502 });
+  const { data: blob, error: pdfDownloadError } = await admin.storage.from("report-pdfs").download(r2.pdf_url);
+  if (pdfDownloadError || !blob) return NextResponse.json({ error: "pdf_download_failed" }, { status: 502 });
+  const buf = Buffer.from(await blob.arrayBuffer());
 
   const videoLine = report.external_video_link
     ? `\n🎥 Video: ${report.external_video_link}${report.external_video_description ? ` — ${report.external_video_description}` : ""}`
@@ -56,21 +62,23 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     fd.append("caption", caption);
     fd.append("document", new Blob([buf], { type: "application/pdf" }), `report-${report.id}.pdf`);
     const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: "POST", body: fd });
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.description || "telegram_error");
+    const json = await res.json().catch(() => null) as { ok?: boolean; description?: string } | null;
+    if (!res.ok || !json?.ok) throw new Error(json?.description || `telegram_http_${res.status}`);
     success = true;
   } catch (e: unknown) {
     error = e instanceof Error ? e.message : String(e);
     routeLog.error("Failed to send Telegram", e, { reportId: report.id, chatId });
   }
 
-  await sb.from("report_sends").insert({
+  const { error: logError } = await sb.from("report_sends").insert({
     report_id: report.id, channel: "telegram", target: chatId,
     success, error, sent_by: profile.id
   });
+  if (logError) return NextResponse.json({ error: "send_log_failed", delivered: success }, { status: 500 });
 
   if (success && report.status === "completato") {
-    await sb.from("reports").update({ status: "inviato" }).eq("id", report.id);
+    const { error: statusError } = await sb.from("reports").update({ status: "inviato" }).eq("id", report.id);
+    if (statusError) return NextResponse.json({ error: "status_update_failed", delivered: true }, { status: 500 });
   }
 
   if (success) routeLog.info("Telegram sent", { reportId: report.id, chatId });

@@ -7,7 +7,7 @@ import clsx from "clsx";
 export default function BottomNav({ isAdmin }: { isAdmin: boolean }) {
   const path = usePathname();
   const items = [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/dashboard", label: "Home", icon: Home },
     { href: "/reports/new", label: "Nuovo", icon: FilePlus2 },
     { href: "/reports", label: "Storico", icon: History },
     isAdmin
@@ -18,7 +18,7 @@ export default function BottomNav({ isAdmin }: { isAdmin: boolean }) {
     <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 pb-[env(safe-area-inset-bottom)]">
       <ul className="grid grid-cols-4">
         {items.map((it) => {
-          const Active = path === it.href || (it.href !== "/" && path.startsWith(it.href));
+          const Active = path === it.href || path.startsWith(`${it.href}/`);
           const Icon = it.icon;
           return (
             <li key={it.href}>

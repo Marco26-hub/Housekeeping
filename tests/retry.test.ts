@@ -35,10 +35,11 @@ describe("retry", () => {
     const fn = vi.fn().mockImplementation(async () => { throw new Error("always fails"); });
 
     const promise = retry(fn, { maxRetries: 2, delayMs: 100 });
+    const assertion = expect(promise).rejects.toThrow("always fails");
 
     await vi.advanceTimersByTimeAsync(300);
 
-    await expect(promise).rejects.toThrow("always fails");
+    await assertion;
     expect(fn).toHaveBeenCalledTimes(3); // initial + 2 retries
   });
 
@@ -46,11 +47,12 @@ describe("retry", () => {
     const fn = vi.fn().mockImplementation(async () => { throw new Error("fail"); });
 
     const promise = retry(fn, { maxRetries: 3, delayMs: 1000, backoff: "exponential" });
+    const assertion = expect(promise).rejects.toThrow("fail");
 
     // First retry: 1000ms, second: 2000ms, third: 4000ms
     await vi.advanceTimersByTimeAsync(7000);
 
-    await expect(promise).rejects.toThrow("fail");
+    await assertion;
     expect(fn).toHaveBeenCalledTimes(4); // initial + 3 retries
   });
 
@@ -58,11 +60,12 @@ describe("retry", () => {
     const fn = vi.fn().mockImplementation(async () => { throw new Error("fail"); });
 
     const promise = retry(fn, { maxRetries: 3, delayMs: 1000, backoff: "linear" });
+    const assertion = expect(promise).rejects.toThrow("fail");
 
     // Each retry: 1000ms, 2000ms, 3000ms
     await vi.advanceTimersByTimeAsync(6000);
 
-    await expect(promise).rejects.toThrow("fail");
+    await assertion;
     expect(fn).toHaveBeenCalledTimes(4);
   });
 });

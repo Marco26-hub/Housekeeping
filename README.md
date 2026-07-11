@@ -1,6 +1,8 @@
-# Daily Cleaning Report
+# The Blondes Cleaning OS
 
-Web app mobile-first per la compilazione di report giornalieri di un'impresa di pulizie.
+Progetto unico per sito pubblico Housekeeping + web app mobile-first Report Pulizie.
+
+La root `/` mostra la landing premium The Blondes Cleaning. L'area operativa è su `/login`, con dashboard dipendente su `/dashboard` e dashboard admin su `/admin`.
 
 ## Stack
 
@@ -14,8 +16,14 @@ Web app mobile-first per la compilazione di report giornalieri di un'impresa di 
 
 ## Funzionalità
 
+**Sito pubblico**
+- Landing Housekeeping premium servita da `/`
+- Pagine statiche multilingua e legali in `public/housekeeping/`
+- Brochure PDF IT/EN incluse fra gli asset pubblici
+- Pulsante “Area operatori” verso `/login`
+
 **Dipendente**
-- Home mobile con pulsanti grandi: Nuovo Report, Report di oggi, Storico, Profilo
+- Dashboard mobile con pulsanti grandi: Nuovo Report, Report di oggi, Storico, Profilo
 - Creazione report con template precompilato (checklist auto-popolata)
 - Form con dati intervento, checklist a sezioni richiudibili, anomalie, note, foto, firme
 - Calcolo automatico ore totali (entrata - uscita - pausa)
@@ -42,38 +50,20 @@ npm install
 cp .env.example .env.local
 ```
 
-Compila `.env.local` con le credenziali Supabase, SMTP e Telegram.
+Compila `.env.local` con le credenziali Supabase e un `SETUP_SECRET` casuale di almeno 16 caratteri. SMTP e Telegram sono opzionali.
 
 ### 2. Database
 
 Nel SQL editor di Supabase, esegui in ordine:
 
-1. `supabase/schema.sql` – tabelle, enum, RLS, helper functions
-2. `supabase/seed.sql` – funzioni seed (`seed_default_templates`)
+1. `supabase/schema.sql` – tabelle, enum, RLS e helper functions
+2. `supabase/migration_v1.sql` – campi applicativi V1
+3. `supabase/seed.sql` – funzioni seed (`seed_default_templates`)
+4. `supabase/storage_setup.sql` – bucket privati e policy Storage multi-azienda
 
-Crea i bucket Storage:
+Gli script usano lo schema Supabase standard `public`. I bucket Storage vengono creati automaticamente da `storage_setup.sql`.
 
-- `report-photos` (privato)
-- `report-pdfs` (privato)
-- `company-logos` (pubblico, opzionale)
-
-Aggiungi policy Storage che limitano lettura/scrittura ai membri della stessa azienda (path prefix = `company_id/…`).
-
-Crea la prima azienda e admin:
-
-```sql
-insert into companies (name, admin_email)
-values ('Pulizie SRL', 'admin@example.com')
-returning id;
-
--- crea l'utente da Authentication > Add user
--- poi associa il profilo:
-insert into profiles (id, company_id, full_name, role)
-values ('<user_id_auth>', '<company_id>', 'Mario Rossi', 'admin');
-
--- semina i template di default
-select seed_default_templates('<company_id>');
-```
+Apri `/setup` e inserisci il codice configurato in `SETUP_SECRET`: l'app crea azienda, primo admin e template predefiniti. Dopo il primo setup la route si disattiva automaticamente.
 
 ### 3. Dev
 
@@ -82,6 +72,13 @@ npm run dev
 ```
 
 Apri http://localhost:3000
+
+Rotte principali:
+
+- `/` sito pubblico Housekeeping
+- `/login` accesso operatori/admin
+- `/dashboard` area operatore autenticata
+- `/admin` area admin autenticata
 
 ### 4. Telegram Bot
 
@@ -106,14 +103,25 @@ Usa la Web Share API quando disponibile; fallback su `wa.me?text=...` con link a
 
 - Layout mobile-first, pulsanti grandi, sezioni richiudibili, barra di progresso, bottom nav.
 - `manifest.webmanifest` + `sw.js` per installazione PWA su iOS/Android.
-- Aggiungi icone PNG in `public/icons/icon-192.png` e `public/icons/icon-512.png`.
+- Le icone SVG/PNG sono incluse in `public/icons/`.
+
+## Verifica prima del deploy
+
+```bash
+npm run check
+```
+
+Il comando esegue lint, typecheck, test (incluso controllo sintassi service worker) e build di produzione. Dopo il deploy verificare `/api/health`: deve rispondere `status: ok`.
+
+Non eseguire il deploy della cartella legacy `Report_pulizie/`: la configurazione Netlify deve avere questa root come base del progetto. Anche la vecchia cartella statica Housekeeping non va deployata separatamente se vuoi mantenere progetto unico: gli asset pubblici sono in `public/housekeeping/`.
 
 ## Struttura
 
 ```
 app/
+  page.tsx            # landing pubblica Housekeeping integrata
   (app)/              # rotte autenticate
-    page.tsx          # home dipendente
+    dashboard/page.tsx # home dipendente
     reports/...       # storico + new + detail + edit
     admin/...         # dashboard admin
     profile/...
@@ -123,5 +131,9 @@ app/
 components/           # BottomNav, CollapsibleSection, PhotoUpload, SignaturePad, ServiceWorker
 lib/                  # constants, utils, auth, pdf, supabase clients
 supabase/             # schema.sql, seed.sql
-public/               # manifest, sw, icons
+public/
+  housekeeping/       # sito pubblico statico, brochure, lingue e pagine legali
+  manifest.webmanifest
+  sw.js
+  icons/
 ```

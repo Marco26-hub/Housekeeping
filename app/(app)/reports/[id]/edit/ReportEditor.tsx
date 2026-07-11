@@ -157,15 +157,17 @@ export default function ReportEditor(props: {
       const { error } = await sb.from("reports").update(payload).eq("id", props.report.id);
       if (error) return toast.error(error.message);
 
-      await sb.from("report_anomalies").delete().eq("report_id", props.report.id);
+      const { error: deleteAnomaliesError } = await sb.from("report_anomalies").delete().eq("report_id", props.report.id);
+      if (deleteAnomaliesError) throw deleteAnomaliesError;
       if (a.size) {
-        await sb.from("report_anomalies").insert(
+        const { error: insertAnomaliesError } = await sb.from("report_anomalies").insert(
           Array.from(a).map((code) => ({
             report_id: props.report.id,
             code,
             detail: code === "altro" ? ad : null
           }))
         );
+        if (insertAnomaliesError) throw insertAnomaliesError;
       }
       if (showToast) toast.success("Salvato");
     } finally {
@@ -173,10 +175,13 @@ export default function ReportEditor(props: {
     }
   }
 
+  const saveRef = useRef(save);
+  saveRef.current = save;
+
   // Debounced auto-save: resets timer on every change, saves 4s after the last one
   useEffect(() => {
     if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
-    autoSaveTimerRef.current = setTimeout(() => { save(false); }, 4000);
+    autoSaveTimerRef.current = setTimeout(() => { saveRef.current(false); }, 4000);
     return () => {
       if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
     };
@@ -184,15 +189,20 @@ export default function ReportEditor(props: {
 
   async function toggleTask(t: Task) {
     const next = !t.done;
+    const { error } = await sb.from("report_tasks").update({ done: next }).eq("id", t.id);
+    if (error) return toast.error(`Attività non aggiornata: ${error.message}`);
     setTasks((arr) => arr.map((x) => (x.id === t.id ? { ...x, done: next } : x)));
-    await sb.from("report_tasks").update({ done: next }).eq("id", t.id);
   }
 
   async function saveSignature(kind: "operator" | "client", dataUrl: string | null) {
+    const { error: deleteError } = await sb.from("report_signatures").delete().eq("report_id", props.report.id).eq("kind", kind);
+    if (deleteError) return toast.error(`Firma non aggiornata: ${deleteError.message}`);
+    if (dataUrl) {
+      const { error: insertError } = await sb.from("report_signatures").insert({ report_id: props.report.id, kind, data_url: dataUrl });
+      if (insertError) return toast.error(`Firma non salvata: ${insertError.message}`);
+    }
     if (kind === "operator") setOpSig(dataUrl);
     else setClientSig(dataUrl);
-    await sb.from("report_signatures").delete().eq("report_id", props.report.id).eq("kind", kind);
-    if (dataUrl) await sb.from("report_signatures").insert({ report_id: props.report.id, kind, data_url: dataUrl });
   }
 
   function onPickProperty(id: string) {

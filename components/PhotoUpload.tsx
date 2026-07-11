@@ -57,8 +57,12 @@ export default function PhotoUpload({
           file_size: compressed.size,
           operator_id: operatorId
         }).select("id, storage_path, kind, notes").single();
-        if (insErr) throw insErr;
-        const { data: signed } = await sb.storage.from("report-photos").createSignedUrl(path, 3600);
+        if (insErr) {
+          await sb.storage.from("report-photos").remove([path]);
+          throw insErr;
+        }
+        const { data: signed, error: signError } = await sb.storage.from("report-photos").createSignedUrl(path, 3600);
+        if (signError) throw signError;
         setPhotos((p) => [...p, { ...row, previewUrl: signed?.signedUrl }]);
       }
       toast.success("Foto caricate");
@@ -71,22 +75,21 @@ export default function PhotoUpload({
 
   async function remove(p: UploadedPhoto) {
     if (!p.id) return;
-    await sb.from("report_photos").delete().eq("id", p.id);
-    await sb.storage.from("report-photos").remove([p.storage_path]);
+    const { error: storageError } = await sb.storage.from("report-photos").remove([p.storage_path]);
+    if (storageError) return toast.error(`Foto non eliminata: ${storageError.message}`);
+    const { error: rowError } = await sb.from("report_photos").delete().eq("id", p.id);
+    if (rowError) return toast.error(`Archivio non aggiornato: ${rowError.message}`);
     setPhotos((arr) => arr.filter((x) => x.id !== p.id));
+    toast.success("Foto eliminata");
   }
 
   async function saveNote(p: UploadedPhoto, note: string) {
     if (!p.id) return;
-    await sb.from("report_photos").update({ notes: note || null }).eq("id", p.id);
+    const { error } = await sb.from("report_photos").update({ notes: note || null }).eq("id", p.id);
+    if (error) return toast.error(`Nota non salvata: ${error.message}`);
     setPhotos((arr) => arr.map((x) => x.id === p.id ? { ...x, notes: note || null } : x));
     setEditingNoteId(null);
   }
-
-  const grouped = PHOTO_KINDS.map((k) => ({
-    ...k,
-    items: photos.filter((p) => p.kind === k.value)
-  })).filter((g) => g.items.length > 0 || g.value === selectedKind);
 
   const total = photos.length;
 

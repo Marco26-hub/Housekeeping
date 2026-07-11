@@ -157,13 +157,20 @@ create table if not exists report_sends (
 create index if not exists idx_report_sends_report on report_sends(report_id);
 
 -- HELPER: current user's company + role
-create or replace function auth_company_id() returns uuid language sql stable as $$
+create or replace function auth_company_id() returns uuid
+language sql stable security definer set search_path = public as $$
   select company_id from profiles where id = auth.uid()
 $$;
 
-create or replace function auth_is_admin() returns boolean language sql stable as $$
+create or replace function auth_is_admin() returns boolean
+language sql stable security definer set search_path = public as $$
   select coalesce((select role = 'admin' from profiles where id = auth.uid()), false)
 $$;
+
+revoke all on function auth_company_id() from public;
+revoke all on function auth_is_admin() from public;
+grant execute on function auth_company_id() to authenticated, service_role;
+grant execute on function auth_is_admin() to authenticated, service_role;
 
 -- ENABLE RLS
 alter table companies enable row level security;
@@ -240,30 +247,30 @@ create policy reports_delete on reports for delete using (
 -- child tables share parent permissions
 drop policy if exists rt_all on report_tasks;
 create policy rt_all on report_tasks for all using (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 ) with check (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 );
 
 drop policy if exists ra_all on report_anomalies;
 create policy ra_all on report_anomalies for all using (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 ) with check (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 );
 
 drop policy if exists rp_all on report_photos;
 create policy rp_all on report_photos for all using (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 ) with check (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 );
 
 drop policy if exists rs_all on report_signatures;
 create policy rs_all on report_signatures for all using (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 ) with check (
-  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or r.operator_id = auth.uid()))
+  exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id() and (auth_is_admin() or (r.operator_id = auth.uid() and r.status = 'bozza')))
 );
 
 drop policy if exists rsend_select on report_sends;
@@ -275,8 +282,4 @@ create policy rsend_insert on report_sends for insert with check (
   exists (select 1 from reports r where r.id = report_id and r.company_id = auth_company_id())
 );
 
--- STORAGE: create buckets manually in Supabase dashboard:
---   report-photos (private)
---   report-pdfs   (private)
---   company-logos (public)
--- Add Storage policies: only members of the same company can read/write objects whose path starts with their company_id.
+-- STORAGE buckets and policies are installed by storage_setup.sql.

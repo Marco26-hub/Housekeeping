@@ -19,7 +19,6 @@ export default function PhotoArchiveGrid({ photos, filters }: {
   filters: { date?: string; operatorId?: string; q?: string };
 }) {
   const router = useRouter();
-  const sb = supabaseBrowser();
   const [deleting, setDeleting] = useState<string | null>(null);
 
   const filtered = photos.filter((p) => {

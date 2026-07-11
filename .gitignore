@@ -4,6 +4,7 @@ node_modules
 .env.local
 .DS_Store
 *.log
+Report_pulizie/
 
 # Local Netlify folder
 .netlify

@@ -1,7 +1,5 @@
 import { requireAdmin } from "@/lib/auth";
 import { PHOTO_KINDS } from "@/lib/constants";
-import { formatDate } from "@/lib/utils";
-import Link from "next/link";
 import PhotoArchiveGrid from "./PhotoArchiveGrid";
 
 export default async function PhotoArchive({ searchParams }: {

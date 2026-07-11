@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Blondes Cleaning — Brochure Servizi</title>
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   BASE
+   ============================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --gold: #C6A96B;
+  --gold-light: #D4BC8A;
+  --gold-dark: #A8893A;
+  --gray-50: #F9F9F7;
+  --gray-100: #F2F1EE;
+  --gray-200: #E5E3DE;
+  --gray-500: #9B9791;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', sans-serif;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--sans);
+  background: #e8e8e8;
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   PAGE SYSTEM
+   ============================================ */
+
+.page {
+  width: 794px;
+  min-height: 1123px;
+  margin: 2rem auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.25);
+}
+
+/* ============================================
+   PAGE 1 — COVER
+   ============================================ */
+
+.cover {
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cover-image {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=55');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.32;
+}
+
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(10,10,10,0.85) 50%, rgba(10,10,10,0.6) 100%);
+}
+
+.cover-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 1123px;
+  padding: 56px 64px;
+}
+
+.cover-top-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(198,169,107,0.2));
+  margin-bottom: 48px;
+}
+
+.cover-logo {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.cover-tagline-small {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  font-weight: 500;
+}
+
+.cover-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cover-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cover-label::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+.cover h1 {
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.cover h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.cover-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.8;
+  max-width: 420px;
+  font-weight: 300;
+  margin-bottom: 48px;
+}
+
+.cover-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  margin-bottom: 48px;
+}
+
+.cover-services-preview {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(198,169,107,0.15);
+}
+
+.cover-service-item {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid rgba(198,169,107,0.15);
+}
+
+.cover-service-item:last-child { border-right: none; }
+
+.cover-service-item .icon {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.cover-service-item p {
+  font-size: 0.74rem;
+  color: rgba(255,255,255,0.80);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.cover-bottom {
+  padding-top: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cover-bottom-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(198,169,107,0.2), var(--gold));
+  margin-bottom: 6px;
+}
+
+.cover-locations {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.68);
+  text-align: right;
+}
+
+.cover-locations strong {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+
+/* ============================================
+   PAGE 2 — SERVIZI CORE
+   ============================================ */
+
+.services-page {
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  min-height: 1123px;
+  max-height: 1123px;
+  overflow: hidden;
+}
+
+.services-content {
+  padding: 44px 52px;
+}
+
+.page-header {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.page-eyebrow {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.page-logo-small {
+  font-family: var(--serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.page-logo-small::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--gray-200);
+  border: 1px solid var(--gray-200);
+  margin-bottom: 36px;
+}
+
+.service-card {
+  background: var(--white);
+  padding: 24px 22px;
+  position: relative;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--gold-dark), var(--gold-light));
+  opacity: 0;
+}
+
+.service-icon {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.service-card h3 {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+
+.service-card p {
+  font-size: 0.82rem;
+  color: var(--gray-700);
+  line-height: 1.65;
+}
+
+.service-note {
+  background: var(--black);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.service-note p {
+  font-family: var(--serif);
+  font-style: italic;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.service-note span {
+  font-size: 2rem;
+  color: rgba(198,169,107,0.3);
+  font-family: var(--serif);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Right column image */
+.services-sidebar {
+  position: relative;
+  overflow: hidden;
+}
+
+.services-sidebar-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=420&q=55');
+  background-size: cover;
+  background-position: center;
+}
+
+.services-sidebar-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.85) 30%, rgba(10,10,10,0.1) 70%);
+}
+
+.services-sidebar-text {
+  position: absolute;
+  bottom: 48px;
+  left: 28px;
+  right: 28px;
+  z-index: 2;
+}
+
+.services-sidebar-text h4 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  color: var(--white);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.services-sidebar-text p {
+  font-size: 0.76rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ============================================
+   PAGE 3 — PREZZI
+   ============================================ */
+
+.pricing-page {
+  background: var(--gray-50);
+  padding: 36px 44px;
+  min-height: 1123px;
+  max-height: 1123px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-note-top {
+  background: var(--black);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.pricing-note-top p {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+}
+
+.pricing-note-top strong {
+  color: var(--gold);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.pricing-section-eyebrow {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.pricing-section-sub {
+  font-size: 0.72rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+
+.price-card {
+  background: var(--white);
+  padding: 22px 18px;
+  position: relative;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.price-card.featured {
+  background: var(--black);
+  border: 1px solid rgba(198,169,107,0.3);
+}
+
+.price-badge {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--black);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  white-space: nowrap;
+}
+
+.price-tier {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.price-name {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 2px;
+  letter-spacing: -0.02em;
+}
+
+.price-card.featured .price-name { color: var(--white); }
+
+.price-amount {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 10px 0 2px;
+  line-height: 1;
+}
+
+.price-unit {
+  font-size: 0.74rem;
+  color: var(--gray-700);
+  margin-bottom: 20px;
+  display: block;
+  line-height: 1.5;
+}
+
+.price-card.featured .price-unit { color: rgba(255,255,255,0.65); }
+
+.price-divider-line {
+  width: 100%;
+  height: 1px;
+  background: var(--gray-100);
+  margin-bottom: 20px;
+}
+
+.price-card.featured .price-divider-line { background: rgba(255,255,255,0.08); }
+
+.price-features-list {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+.price-features-list li {
+  font-size: 0.76rem;
+  color: var(--gray-700);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--gray-50);
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+.price-card.featured .price-features-list li {
+  color: rgba(255,255,255,0.82);
+  border-bottom-color: rgba(255,255,255,0.05);
+}
+
+.price-features-list li::before {
+  content: '—';
+  color: var(--gold);
+  font-size: 0.76rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.price-cta {
+  display: block;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--black);
+  color: var(--black);
+  transition: all 0.3s;
+}
+
+.price-card.featured .price-cta {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+}
+
+/* MQ table */
+.mq-table {
+  margin-bottom: 28px;
+}
+
+.mq-table-title {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.mq-table-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--gray-200);
+  border: 1px solid var(--gray-200);
+}
+
+.mq-cell {
+  background: var(--white);
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.mq-cell.header {
+  background: var(--black);
+}
+
+.mq-cell.header p {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.mq-cell p {
+  font-size: 0.76rem;
+  color: var(--gray-700);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.mq-cell .mq-price {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--gold);
+  font-weight: 600;
+  display: block;
+  margin-top: 2px;
+}
+
+.pricing-disclaimer {
+  font-size: 0.63rem;
+  color: var(--gray-700);
+  line-height: 1.6;
+  border-top: 1px solid var(--gray-200);
+  padding-top: 8px;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
+/* Solo Housekeeping horizontal strip */
+.hk-strip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.hk-strip-header {
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.hk-strip-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(198,169,107,0.2);
+  border: 1px solid rgba(198,169,107,0.2);
+  flex: 1;
+  min-height: 0;
+}
+
+.hk-tile {
+  background: #111;
+  padding: 28px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hk-tile::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20px; right: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+}
+
+.hk-tile-mid {
+  background: var(--white);
+}
+
+.hk-tile-mid::before {
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+
+.hk-range-print {
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.hk-price-print {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.hk-per-print {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+
+.hk-tile p {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.hk-tile-mid p { color: var(--gray-700); }
+
+.hk-example-print {
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.58);
+  display: block;
+}
+
+.hk-tile-mid .hk-example-print { color: var(--gray-700); }
+
+/* ============================================
+   PAGE 4 — SERVIZI AGGIUNTIVI + CONTATTI
+   ============================================ */
+
+.extras-page {
+  background: var(--white);
+  min-height: 1123px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.extras-header {
+  grid-column: 1 / -1;
+  background: var(--black);
+  padding: 48px 52px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.extras-header-left h2 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+}
+
+.extras-header-right {
+  text-align: right;
+}
+
+.extras-header-right p {
+  font-family: var(--serif);
+  font-style: italic;
+  color: rgba(255,255,255,0.68);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: 240px;
+}
+
+.extras-col {
+  padding: 36px 40px;
+  border-right: 1px solid var(--gray-100);
+}
+
+.extras-col:last-child { border-right: none; }
+
+.extras-category {
+  margin-bottom: 28px;
+}
+
+.extras-category-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.extras-category-header .cat-icon {
+  font-size: 1rem;
+}
+
+.extras-category-header h4 {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--black);
+}
+
+.extras-list {
+  list-style: none;
+}
+
+.extras-list li {
+  font-size: 0.76rem;
+  color: var(--gray-700);
+  padding: 4px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-50);
+}
+
+.extras-list li::before {
+  content: '—';
+  color: var(--gold);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+
+/* Custom-request CTA card (6th balance card) */
+.extras-cta {
+  margin-top: 4px;
+  background: var(--black);
+  padding: 22px 22px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.extras-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 70%);
+}
+.extras-cta-eyebrow {
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.extras-cta h4 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--white);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.extras-cta p {
+  font-size: 0.74rem;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+.extras-cta-tag {
+  display: inline-block;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--gold);
+  padding: 7px 14px;
+  font-weight: 700;
+}
+
+/* Contact footer spanning full width */
+.contact-footer {
+  grid-column: 1 / -1;
+  background: var(--black);
+  padding: 32px 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(198,169,107,0.2);
+}
+
+.contact-left h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.contact-left p {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.6;
+}
+
+.contact-right {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.contact-wa {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #D4B373 0%, #C6A96B 50%, #A88A4F 100%);
+  color: var(--black);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+
+.contact-locations {
+  text-align: right;
+}
+
+.contact-locations p {
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  line-height: 1.8;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  body { background: white; margin: 0; }
+  .toolbar { display: none !important; }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-inside: avoid;
+    overflow: hidden;
+  }
+  .page:last-child { page-break-after: auto; }
+  .pricing-page {
+    page-break-inside: avoid;
+  }
+  .pulizia-premium-block {
+    page-break-before: avoid;
+  }
+  @page { size: A4; margin: 0; }
+}
+
+/* ============================================
+   TOOLBAR
+   ============================================ */
+
+.toolbar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 999;
+}
+
+.toolbar a, .toolbar button {
+  padding: 8px 18px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-print {
+  background: var(--gold);
+  color: var(--black);
+}
+
+.btn-back {
+  background: var(--black);
+  color: var(--white);
+}
+
+
+/* PRICE CARD CTA — static styled badge */
+span.price-cta {
+  display: block;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid var(--black);
+  color: var(--black);
+}
+.price-card.featured span.price-cta {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+}
+
+/* ============================================
+   PAGE 5 — FINAL CONTACT (premium)
+   ============================================ */
+.final-contact-page {
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+.final-contact-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=55');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.14;
+}
+.final-contact-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(10,10,10,0.92) 50%, rgba(10,10,10,0.78) 100%);
+}
+.final-contact-inner {
+  position: relative;
+  z-index: 2;
+  height: 1123px;
+  padding: 80px 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.final-top-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(198,169,107,0.2), var(--gold), rgba(198,169,107,0.2));
+  margin-bottom: 64px;
+}
+.final-logo {
+  height: 90px;
+  width: auto;
+  display: block;
+  margin-bottom: 56px;
+}
+.final-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.final-headline {
+  font-family: var(--serif);
+  font-size: 3.2rem;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+.final-sub {
+  font-size: 0.84rem;
+  color: rgba(255,255,255,0.62);
+  letter-spacing: 0.08em;
+  margin-bottom: 72px;
+  font-weight: 400;
+}
+.final-contact-card {
+  background: linear-gradient(135deg, rgba(198,169,107,0.08) 0%, rgba(198,169,107,0.02) 100%);
+  border: 1px solid rgba(198,169,107,0.35);
+  padding: 48px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 440px;
+  margin-bottom: 72px;
+}
+.final-card-eyebrow {
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 500;
+}
+.final-card-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 2.8rem;
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+  margin-top: 10px;
+}
+.final-card-role {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.78);
+  margin-top: 10px;
+}
+.final-card-divider {
+  width: 56px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.6;
+  margin: 18px 0 4px;
+}
+.final-card-phone {
+  font-family: var(--sans);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  margin-top: 6px;
+}
+.final-locations {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: auto;
+}
+.final-locations .dot {
+  opacity: 0.5;
+}
+.final-bottom-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(198,169,107,0.2), var(--gold), rgba(198,169,107,0.2));
+  margin-top: auto;
+  margin-bottom: 18px;
+}
+.final-domain {
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  font-weight: 500;
+}
+
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <a href="index.html" class="btn-back">← Sito</a>
+  <button class="btn-print" onclick="window.print()">Stampa / PDF</button>
+</div>
+
+<!-- ================================
+     PAGE 1 — COVER
+     ================================ -->
+<div class="page cover">
+  <div class="cover-image"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-inner">
+
+    <div class="cover-top-line"></div>
+
+    <div class="page-logo-small" style="display:flex; align-items:center; margin-bottom:0;">
+      <img src="assets/img/logo.svg" alt="The Blondes Cleaning" style="height:72px; width:auto; display:block;">
+    </div>
+    <div style="font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:0; margin-top:10px;">
+      Gestione Immobili Lusso
+    </div>
+
+    <div class="cover-center">
+      <div class="cover-label">Brochure Servizi &amp; Pacchetti</div>
+      <h1>Il Tuo Immobile.<br><em>Perfettamente</em><br>Gestito.</h1>
+      <p class="cover-sub">Non siamo una normale impresa di cleaning. Siamo il tuo partner operativo per immobili di lusso.</p>
+      <div class="cover-divider"></div>
+
+      <div class="cover-services-preview">
+        <div class="cover-service-item">
+          <span class="icon">I</span>
+          <p>Check-in &amp; Check-out</p>
+        </div>
+        <div class="cover-service-item">
+          <span class="icon">II</span>
+          <p>Housekeeping Professionale</p>
+        </div>
+        <div class="cover-service-item">
+          <span class="icon">III</span>
+          <p>Biancheria &amp; Kit</p>
+        </div>
+        <div class="cover-service-item">
+          <span class="icon">IV</span>
+          <p>Controllo Qualità</p>
+        </div>
+        <div class="cover-service-item">
+          <span class="icon">V</span>
+          <p>Supporto 24/7</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-bottom-line"></div>
+      <div style="width:16px;"></div>
+      <div class="cover-locations">
+        <strong>Lago di Garda · Lago di Como · Milano</strong>
+        <div>theblondescleaning.com</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================================
+     PAGE 2 — SERVIZI CORE
+     ================================ -->
+<div class="page services-page">
+  <div class="services-content">
+
+    <div style="display:flex; align-items:center; margin-bottom:24px;">
+      <img src="assets/img/logo.svg" alt="The Blondes Cleaning" style="height:42px; width:auto; display:block;">
+    </div>
+
+    <div class="page-header">
+      <span class="page-eyebrow">Servizi Core</span>
+      <h2 class="page-title">Ogni dettaglio.<br>Ogni volta.</h2>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">I</span>
+        <h3>Check-in &amp; Check-out</h3>
+        <p>Accoglienza fluida, professionale e puntuale. Ospiti soddisfatti dal primo momento.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">II</span>
+        <h3>Housekeeping Professionale</h3>
+        <p>Alta qualità, coerente e meticolosa. Standard luxury garantito ad ogni intervento.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">III</span>
+        <h3>Gestione Biancheria</h3>
+        <p>Lenzuola, asciugamani, accappatoi. Sempre puliti, sempre pronti, sempre perfetti.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">IV</span>
+        <h3>Welcome Kit</h3>
+        <p>Setup premium per l'arrivo degli ospiti. Prima impressione che fa la differenza nelle recensioni.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">V</span>
+        <h3>Controllo Qualità</h3>
+        <p>Verifica scrupolosa prima di ogni arrivo. Zero sorprese, zero reclami.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">VI</span>
+        <h3>Supporto 24/7</h3>
+        <p>Disponibili sempre. Qualunque problema risolto in tempo reale, senza che tu debba intervenire.</p>
+      </div>
+    </div>
+
+    <div class="service-note">
+      <span>"</span>
+      <p>Con The Blondes Cleaning non gestisci più nulla. Il tuo immobile gira. Tu no.</p>
+    </div>
+
+  </div>
+
+  <div class="services-sidebar">
+    <div class="services-sidebar-img"></div>
+    <div class="services-sidebar-overlay"></div>
+    <div class="services-sidebar-text">
+      <h4>"Standard premium in ogni proprietà che gestiamo."</h4>
+      <p>The Blondes Cleaning</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================================
+     PAGE 3 — PREZZI
+     ================================ -->
+<div class="page pricing-page">
+
+  <!-- Page top bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid rgba(198,169,107,0.18);">
+    <img src="assets/img/logo.svg" alt="The Blondes Cleaning" style="height:28px; width:auto; display:block;">
+    <span style="font-size:0.55rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); font-weight:600;">Pacchetti &amp; Prezzi</span>
+  </div>
+
+  <!-- Section title -->
+  <div style="margin-bottom:14px;">
+    <span class="pricing-section-eyebrow">Gestione &amp; Housekeeping</span>
+    <h2 style="font-family:var(--serif); font-size:1.3rem; color:var(--black); letter-spacing:-0.02em; margin-top:4px;">Il livello di cura che la tua proprietà merita.</h2>
+  </div>
+
+  <!-- Gestione cards: 3 col -->
+  <div class="pricing-grid" style="margin-bottom:18px; flex-shrink:0;">
+
+    <div class="price-card">
+      <span class="price-tier">Ingresso</span>
+      <div class="price-name">SIGNATURE</div>
+      <div class="price-amount">20%</div>
+      <span class="price-unit">commissione gestione</span>
+      <div class="price-divider-line"></div>
+      <ul class="price-features-list">
+        <li>Allestimento post-soggiorno</li>
+        <li>Check-out &amp; verifica stato immobile</li>
+        <li>Lenzuola standard incluse</li>
+        <li>Asciugamani — 1 set/persona</li>
+        <li>Welcome kit base</li>
+        <li>Report fotografico essenziale</li>
+      </ul>
+      <span class="price-cta">Richiedi Preventivo</span>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">Più Scelto</div>
+      <span class="price-tier">Core</span>
+      <div class="price-name">PREMIUM</div>
+      <div class="price-amount">25%</div>
+      <span class="price-unit">commissione gestione</span>
+      <div class="price-divider-line"></div>
+      <ul class="price-features-list">
+        <li>Tutto Signature, più:</li>
+        <li>Check-in &amp; check-out con accoglienza</li>
+        <li>Housekeeping approfondito</li>
+        <li>Biancheria luxury-grade</li>
+        <li>Welcome kit premium</li>
+        <li>Quality control con checklist</li>
+      </ul>
+      <span class="price-cta">Richiedi Preventivo</span>
+    </div>
+
+    <div class="price-card">
+      <span class="price-tier">Elite</span>
+      <div class="price-name">ELITE</div>
+      <div class="price-amount">30%</div>
+      <span class="price-unit">commissione gestione</span>
+      <div class="price-divider-line"></div>
+      <ul class="price-features-list">
+        <li>Tutto Premium, più:</li>
+        <li>Check-in con referente dedicato</li>
+        <li>Housekeeping di eccellenza</li>
+        <li>Biancheria in lino alta sartoria</li>
+        <li>Welcome kit elite: champagne</li>
+        <li>Account manager 24/7</li>
+      </ul>
+      <span class="price-cta">Richiedi Preventivo</span>
+    </div>
+
+  </div>
+
+  <!-- Solo Housekeeping strip -->
+  <div class="hk-strip">
+    <div class="hk-strip-header" style="margin-bottom:10px;">
+      <span class="pricing-section-eyebrow">Solo Housekeeping</span>
+      <p class="pricing-section-sub">Allestimento professionale per chi gestisce già la proprietà in autonomia.</p>
+    </div>
+    <div class="hk-strip-tiles">
+      <div class="hk-tile">
+        <span class="hk-range-print">Fino a 70 mq</span>
+        <div class="hk-price-print">5€<span class="hk-per-print">/mq</span></div>
+        <p>Appartamenti premium e suite di pregio.</p>
+        <span class="hk-example-print">es. 70 mq → 350€</span>
+      </div>
+      <div class="hk-tile hk-tile-mid">
+        <span class="hk-range-print">Da 70 a 140 mq</span>
+        <div class="hk-price-print">5.5€<span class="hk-per-print">/mq</span></div>
+        <p>Case vacanza, ville medie, più ambienti.</p>
+        <span class="hk-example-print">es. 140 mq → 770€</span>
+      </div>
+      <div class="hk-tile">
+        <span class="hk-range-print">Oltre 140 mq</span>
+        <div class="hk-price-print">6€<span class="hk-per-print">/mq</span></div>
+        <p>Ville di pregio e proprietà luxury.</p>
+        <span class="hk-example-print">Preventivo personalizzato</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="pricing-disclaimer">* Prezzi indicativi IVA esclusa. Preventivo definitivo dopo sopralluogo su richiesta. Sconti per contratti ricorrenti e gestione annuale.</p>
+
+</div>
+
+<!-- ================================
+     PAGE 4 — EXTRA + CONTATTI
+     ================================ -->
+<div class="page extras-page">
+
+  <div class="extras-header">
+    <div class="extras-header-left">
+      <span class="page-eyebrow" style="color:var(--gold);">Servizi Aggiuntivi</span>
+      <h2>Ogni esigenza.<br>Un solo partner.</h2>
+    </div>
+    <div class="extras-header-right">
+      <p>"Dalla barca all'auto, dal giardino al concierge privato."</p>
+    </div>
+  </div>
+
+  <div class="extras-col">
+
+    <div class="extras-category">
+      <div class="extras-category-header">
+        <span class="cat-icon">I</span>
+        <h4>Proprietà &amp; Struttura</h4>
+      </div>
+      <ul class="extras-list">
+        <li>Idraulica &amp; termoidraulica</li>
+        <li>Manutenzione piscina &amp; spa</li>
+        <li>Giardinaggio &amp; cura del verde</li>
+        <li>Detailing &amp; cura vetrate esterne</li>
+        <li>Caldaia, riscaldamento &amp; aria condizionata</li>
+        <li>Elettricista &amp; falegnameria</li>
+      </ul>
+    </div>
+
+    <div class="extras-category">
+      <div class="extras-category-header">
+        <span class="cat-icon">II</span>
+        <h4>Nautica</h4>
+      </div>
+      <ul class="extras-list">
+        <li>Lavaggio &amp; lucidatura barca</li>
+        <li>Varo e rimessaggio stagionale</li>
+        <li>Preparazione barca per ospiti</li>
+        <li>Gestione ormeggio</li>
+        <li>Skipper su richiesta</li>
+        <li>Noleggio gommone &amp; accessori</li>
+      </ul>
+    </div>
+
+    <div class="extras-category">
+      <div class="extras-category-header">
+        <span class="cat-icon">III</span>
+        <h4>Auto &amp; Transfer</h4>
+      </div>
+      <ul class="extras-list">
+        <li>Lavaggio auto di lusso</li>
+        <li>Auto detailing completo</li>
+        <li>Transfer aeroporto &amp; stazione</li>
+        <li>NCC &amp; chauffeur su misura</li>
+        <li>Noleggio auto di lusso</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="extras-col">
+
+    <div class="extras-category">
+      <div class="extras-category-header">
+        <span class="cat-icon">IV</span>
+        <h4>Concierge Premium</h4>
+      </div>
+      <ul class="extras-list">
+        <li>Prenotazioni ristoranti stellati</li>
+        <li>Chef privato in villa</li>
+        <li>Sommelier &amp; wine pairing</li>
+        <li>Personal shopper &amp; acquisti</li>
+        <li>Esperienze esclusive Lago di Garda</li>
+        <li>Wine tour &amp; degustazioni</li>
+        <li>Fiori, decorazioni &amp; allestimenti</li>
+      </ul>
+    </div>
+
+    <div class="extras-category">
+      <div class="extras-category-header">
+        <span class="cat-icon">V</span>
+        <h4>Guest Experience</h4>
+      </div>
+      <ul class="extras-list">
+        <li>Stireria &amp; lavanderia di lusso</li>
+        <li>Ritiro &amp; consegna bagagli</li>
+        <li>Setup eventi &amp; cene private</li>
+        <li>Noleggio bici, kayak, SUP</li>
+        <li>Spesa personalizzata pre-arrivo</li>
+        <li>Baby-sitting &amp; pet-sitting</li>
+        <li>Fotografia immobiliare</li>
+      </ul>
+    </div>
+
+    <div class="extras-cta">
+      <div class="extras-cta-eyebrow">★ Su misura</div>
+      <h4>Hai richieste particolari?</h4>
+      <p>Ogni proprietà è unica. Costruiamo il pacchetto attorno alle tue esigenze, senza limiti di immaginazione.</p>
+      <span class="extras-cta-tag">Parliamone →</span>
+    </div>
+
+  </div>
+
+
+</div>
+
+<!-- ================================
+     PAGE 5 — FINAL CONTACT (premium)
+     ================================ -->
+<div class="page final-contact-page">
+  <div class="final-contact-inner">
+    <div class="final-top-line"></div>
+
+    <img src="logo.svg" alt="The Blondes Cleaning" class="final-logo">
+
+    <span class="final-eyebrow">Richiedi il tuo preventivo gratuito</span>
+    <h2 class="final-headline">Il tuo immobile.<br>Gestito al meglio.</h2>
+    <p class="final-sub">Risposta entro 24 ore · Sopralluogo su richiesta · Nessun obbligo</p>
+
+    <div class="final-contact-card">
+      <span class="final-card-eyebrow">Per informazioni — contatto diretto</span>
+      <span class="final-card-name">Marco</span>
+      <span class="final-card-role">Fondatore &amp; Managing Director</span>
+      <div class="final-card-divider"></div>
+      <a href="tel:+393477196603" class="final-card-phone">+39 347 719 6603</a>
+    </div>
+
+    <div class="final-locations">
+      <span>Lago di Garda</span>
+      <span class="dot">·</span>
+      <span>Lago di Como</span>
+      <span class="dot">·</span>
+      <span>Milano</span>
+    </div>
+
+    <div class="final-bottom-line"></div>
+    <span class="final-domain">theblondescleaning.com</span>
+  </div>
+</div>
+
+</body>
+</html>

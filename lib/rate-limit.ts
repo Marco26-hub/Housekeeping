@@ -33,7 +33,7 @@ export function checkRateLimit(
   ip: string,
   route: string,
   overrides?: Partial<RateLimitConfig>
-): { allowed: boolean; remaining: number; resetIn: number } {
+): { allowed: boolean; limit: number; remaining: number; resetIn: number } {
   cleanup();
   const config = { ...(DEFAULTS[route] ?? DEFAULTS.default), ...overrides };
   const key: `${IP}:${Route}` = `${ip}:${route}`;
@@ -42,20 +42,20 @@ export function checkRateLimit(
 
   if (!existing || now > existing.resetAt) {
     store.set(key, { count: 1, resetAt: now + config.windowMs });
-    return { allowed: true, remaining: config.max - 1, resetIn: config.windowMs };
+    return { allowed: true, limit: config.max, remaining: config.max - 1, resetIn: config.windowMs };
   }
 
   existing.count++;
   if (existing.count > config.max) {
-    return { allowed: false, remaining: 0, resetIn: existing.resetAt - now };
+    return { allowed: false, limit: config.max, remaining: 0, resetIn: existing.resetAt - now };
   }
 
-  return { allowed: true, remaining: config.max - existing.count, resetIn: existing.resetAt - now };
+  return { allowed: true, limit: config.max, remaining: config.max - existing.count, resetIn: existing.resetAt - now };
 }
 
-export function rateLimitHeaders(result: { remaining: number; resetIn: number }): Record<string, string> {
+export function rateLimitHeaders(result: { limit: number; remaining: number; resetIn: number }): Record<string, string> {
   return {
-    "X-RateLimit-Limit": String(result.remaining),
+    "X-RateLimit-Limit": String(result.limit),
     "X-RateLimit-Remaining": String(result.remaining),
     "X-RateLimit-Reset": String(Math.ceil(result.resetIn / 1000)),
   };
