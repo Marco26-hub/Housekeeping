@@ -1,5 +1,4 @@
+# Esempio dimostrativo del pacchetto SWA per imprese di pulizia.
+# Non va indicizzato: il sito commerciale e https://www.socialautomation.app
 User-agent: *
-Allow: /
-
-Sitemap: https://theblondescleaning.netlify.app/sitemap.xml
-
+Disallow: /

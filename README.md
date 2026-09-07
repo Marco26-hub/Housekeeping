@@ -1,8 +1,8 @@
-# The Blondes Cleaning OS
+# SWA Housekeeping OS
 
 Progetto unico per sito pubblico Housekeeping + web app mobile-first Report Pulizie.
 
-La root `/` mostra la landing premium The Blondes Cleaning. L'area operativa è su `/login`, con dashboard dipendente su `/dashboard` e dashboard admin su `/admin`.
+La root `/` mostra la landing premium SWA Housekeeping. L'area operativa è su `/login`, con dashboard dipendente su `/dashboard` e dashboard admin su `/admin`.
 
 ## Stack
 

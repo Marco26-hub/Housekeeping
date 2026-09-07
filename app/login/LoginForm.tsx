@@ -29,7 +29,7 @@ export default function LoginForm() {
       <div className="card w-full max-w-md p-6">
         <div className="text-center mb-6">
           <div className="mx-auto w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl font-bold">TBC</div>
-          <h1 className="mt-3 text-xl font-semibold">The Blondes Cleaning</h1>
+          <h1 className="mt-3 text-xl font-semibold">SWA Housekeeping</h1>
           <p className="text-sm text-gray-500">Area operatori · Report interventi</p>
         </div>
         <form onSubmit={submit} className="space-y-4">
@@ -49,7 +49,7 @@ export default function LoginForm() {
         </form>
         <a href={marketingUrl} target="_blank" rel="noopener noreferrer"
           className="mt-5 flex items-center justify-center gap-1.5 text-sm text-gray-500 hover:text-brand-700">
-          Torna al sito The Blondes <ExternalLink size={14} />
+          Torna al sito SWA Housekeeping <ExternalLink size={14} />
         </a>
       </div>
     </main>

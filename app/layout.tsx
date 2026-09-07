@@ -4,10 +4,10 @@ import { Toaster } from "react-hot-toast";
 import ServiceWorker from "@/components/ServiceWorker";
 
 export const metadata: Metadata = {
-  title: { default: "Area Operatori | The Blondes Cleaning", template: "%s | The Blondes Cleaning" },
-  description: "Area operatori per i report degli interventi The Blondes Cleaning",
+  title: { default: "Area Operatori | SWA Housekeeping", template: "%s | SWA Housekeeping" },
+  description: "Area operatori per i report degli interventi SWA Housekeeping",
   manifest: "/manifest.webmanifest",
-  applicationName: "The Blondes Cleaning — Report",
+  applicationName: "SWA Housekeeping — Report",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "TBC Report" }
 };
 

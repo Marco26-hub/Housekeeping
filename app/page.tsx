@@ -4,7 +4,7 @@ import path from "node:path";
 import Link from "next/link";
 
 export const metadata = {
-  title: "The Blondes Cleaning | Housekeeping Luxury",
+  title: "SWA Housekeeping | Housekeeping Luxury",
   description: "Property management e housekeeping luxury per ville premium su Lago di Garda, Lago di Como e Milano."
 };
 

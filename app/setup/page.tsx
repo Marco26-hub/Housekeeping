@@ -31,7 +31,7 @@ export default async function SetupPage() {
           </ul>
           <div className="mt-5 rounded-2xl bg-gray-950 p-4 text-xs text-gray-100">
             <p>SUPABASE_SERVICE_ROLE_KEY si trova in Supabase: Project Settings - API - service_role.</p>
-            <p className="mt-2">SETUP_SECRET puoi sceglierlo tu, per esempio: setup-theblondes-2026-demo</p>
+            <p className="mt-2">SETUP_SECRET puoi sceglierlo tu, per esempio: setup-theswa-housekeeping-2026-demo</p>
           </div>
         </div>
       </div>
