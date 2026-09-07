@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Area operatori per i report degli interventi SWA Housekeeping",
   manifest: "/manifest.webmanifest",
   applicationName: "SWA Housekeeping — Report",
-  appleWebApp: { capable: true, statusBarStyle: "default", title: "TBC Report" }
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "SWA Report" }
 };
 
 export const viewport: Viewport = {

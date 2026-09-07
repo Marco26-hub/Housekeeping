@@ -1,6 +1,6 @@
 {
   "name": "SWA Housekeeping — Report",
-  "short_name": "TBC Report",
+  "short_name": "SWA Report",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f9fafb",

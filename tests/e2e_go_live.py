@@ -22,8 +22,8 @@ with sync_playwright() as p:
     require(response is not None, "Login did not return an HTTP response")
     login_status = response.status
     require(login_status == 200, f"Login page failed: {login_status}")
-    require(page.get_by_role("heading", name="The Blondes Cleaning").count() == 1, "Login branding missing")
-    marketing_link = page.get_by_role("link", name="Torna al sito The Blondes")
+    require(page.get_by_role("heading", name="SWA Housekeeping").count() == 1, "Login branding missing")
+    marketing_link = page.get_by_role("link", name="Torna al sito SWA Housekeeping")
     require(marketing_link.count() == 1, "Marketing site link missing")
     marketing_href = marketing_link.get_attribute("href")
     require(marketing_href in ("/", f"{BASE}/"), f"Wrong marketing URL: {marketing_href}")
@@ -33,12 +33,12 @@ with sync_playwright() as p:
     require(landing_response is not None, "Landing did not return an HTTP response")
     require(landing_response.status == 200, f"Landing page failed: {landing_response.status}")
     require(page.get_by_role("link", name="Area operatori").count() == 1, "Operator area CTA missing")
-    require("The Blondes Cleaning" in page.content(), "Housekeeping landing content missing")
+    require("SWA Housekeeping" in page.content(), "Housekeeping landing content missing")
 
     manifest_response = context.request.get(f"{BASE}/manifest.webmanifest")
     require(manifest_response.ok, f"Manifest failed: {manifest_response.status}")
     manifest = manifest_response.json()
-    require(manifest["short_name"] == "TBC Report", "Manifest branding mismatch")
+    require(manifest["short_name"] == "SWA Report", "Manifest branding mismatch")
     for icon in manifest["icons"]:
         icon_response = context.request.get(f"{BASE}{icon['src']}")
         require(icon_response.ok, f"Missing PWA icon: {icon['src']}")

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LeadForge Italia — Ricerca clienti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">L</span><span>LeadForge<small>ITALIA</small></span></a>
+    <nav>
+      <button class="nav-item active" data-view="dashboard"><span>⌂</span> Panoramica</button>
+      <button class="nav-item" data-view="leads"><span>◎</span> Tutti i lead</button>
+      <button class="nav-item" data-view="discover"><span>⌕</span> Trova aziende</button>
+      <button class="nav-item" data-view="campaigns"><span>◫</span> Campagne</button>
+    </nav>
+    <div class="sidebar-note"><span class="pulse"></span><div><b>Sistema attivo</b><small>Database locale protetto</small></div></div>
+  </aside>
+
+  <main>
+    <header>
+      <div><button class="menu" aria-label="Menu">☰</button><span class="eyebrow">GESTIONE COMMERCIALE</span><h1 id="page-title">Buongiorno 👋</h1></div>
+      <button class="primary" data-open="lead-modal">＋ Aggiungi lead</button>
+    </header>
+
+    <section id="dashboard" class="view active">
+      <div class="hero">
+        <div><span class="hero-label">LA TUA PIPELINE, OGGI</span><h2>Trasforma attività locali<br>in <em>nuovi clienti.</em></h2><p>Cerca aziende, raccogli contatti pubblici e organizza il lavoro commerciale in un unico posto.</p><button class="light" data-go="discover">Avvia una ricerca →</button></div>
+        <div class="hero-art"><div class="orbit one"></div><div class="orbit two"></div><div class="target">↗</div><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+      </div>
+      <div class="stat-grid">
+        <article class="stat"><div class="stat-icon violet">◎</div><div><span>Lead totali</span><strong id="stat-total">0</strong><small>nel database</small></div></article>
+        <article class="stat"><div class="stat-icon orange">✦</div><div><span>Da qualificare</span><strong id="stat-new">0</strong><small>nuove opportunità</small></div></article>
+        <article class="stat"><div class="stat-icon blue">↗</div><div><span>Contattati</span><strong id="stat-contacted">0</strong><small>in lavorazione</small></div></article>
+        <article class="stat"><div class="stat-icon green">✓</div><div><span>Clienti acquisiti</span><strong id="stat-won">0</strong><small>conversioni</small></div></article>
+      </div>
+      <div class="dashboard-grid">
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">ULTIMI INSERIMENTI</span><h3>Lead recenti</h3></div><button class="text-btn" data-go="leads">Vedi tutti →</button></div><div id="recent-list" class="recent-list empty">Nessun lead presente</div></article>
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">DISTRIBUZIONE</span><h3>Settori principali</h3></div></div><div id="sector-list" class="sector-list empty">I dati appariranno qui</div></article>
+      </div>
+    </section>
+
+    <section id="leads" class="view">
+      <div class="toolbar"><div class="search"><span>⌕</span><input id="lead-search" placeholder="Cerca azienda, città o settore…"></div><select id="status-filter"><option value="">Tutti gli stati</option><option value="new">Nuovo</option><option value="qualified">Qualificato</option><option value="contacted">Contattato</option><option value="won">Acquisito</option><option value="lost">Perso</option></select><button class="secondary" id="export-csv">Esporta CSV</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Azienda</th><th>Contatti</th><th>Località</th><th>Fonte</th><th>Score</th><th>Stato</th><th></th></tr></thead><tbody id="leads-table"></tbody></table><div id="leads-empty" class="table-empty">Nessun lead trovato. Avvia una ricerca o aggiungine uno.</div></div>
+    </section>
+
+    <section id="discover" class="view">
+      <div class="discover-grid">
+        <article class="search-card"><span class="eyebrow">RICERCA SU DATI PUBBLICI</span><h2>Trova le aziende giuste.</h2><p>Inserisci una categoria e una località. I risultati pubblici di OpenStreetMap verranno deduplicati e aggiunti al database.</p>
+          <form id="discover-form">
+            <label>Tipo di attività<input name="category" required placeholder="es. ristorante, dentista, parrucchiere"></label>
+            <label>Località<input name="city" required placeholder="es. Milano, Monza, Roma"></label>
+            <label>Campagna<select name="campaign_id" class="campaign-select"><option value="">Nessuna campagna</option></select></label>
+            <label>Numero massimo<select name="limit"><option>20</option><option selected>30</option><option>50</option><option>100</option></select></label>
+            <button class="primary wide" type="submit">⌕ Cerca nuove aziende</button>
+          </form>
+          <div class="legal-note">Usa esclusivamente dati pubblici nel rispetto di GDPR, termini delle fonti e diritto di opposizione. Verifica sempre la base giuridica prima di contattare un lead.</div>
+        </article>
+        <article class="result-card"><div class="result-visual"><div>⌕</div></div><h3 id="result-title">Pronto per la ricerca</h3><p id="result-copy">I risultati compariranno qui e saranno salvati automaticamente.</p><div id="result-preview"></div></article>
+      </div>
+      <article class="panel import-panel"><div><span class="eyebrow">HAI GIÀ UNA LISTA?</span><h3>Importa da CSV</h3><p>Colonne supportate: company, category, city, address, website, email, phone.</p></div><button class="secondary" data-open="import-modal">Importa file CSV</button></article>
+    </section>
+
+    <section id="campaigns" class="view">
+      <div class="section-intro"><div><span class="eyebrow">ORGANIZZA IL LAVORO</span><h2>Campagne commerciali</h2><p>Raggruppa i lead per mercato, territorio o iniziativa.</p></div><button class="primary" data-open="campaign-modal">＋ Nuova campagna</button></div>
+      <div id="campaign-grid" class="campaign-grid"></div>
+    </section>
+  </main>
+
+  <dialog id="lead-modal"><form method="dialog" class="modal-card" id="lead-form"><div class="modal-head"><div><span class="eyebrow">NUOVO CONTATTO</span><h3>Aggiungi un lead</h3></div><button class="close" value="cancel">×</button></div><div class="form-grid"><label class="full">Nome azienda<input name="company" required></label><label>Settore<input name="category"></label><label>Città<input name="city"></label><label>Sito web<input name="website" type="url" placeholder="https://"></label><label>Email<input name="email" type="email"></label><label>Telefono<input name="phone"></label><label>Campagna<select name="campaign_id" class="campaign-select"><option value="">Nessuna campagna</option></select></label><label class="full">Note<textarea name="notes" rows="3"></textarea></label></div><button class="primary wide" type="submit">Salva lead</button></form></dialog>
+  <dialog id="campaign-modal"><form method="dialog" class="modal-card" id="campaign-form"><div class="modal-head"><div><span class="eyebrow">NUOVA RACCOLTA</span><h3>Crea campagna</h3></div><button class="close" value="cancel">×</button></div><label>Nome campagna<input name="name" required placeholder="es. Ristoranti Milano"></label><label>Settore target<input name="sector"></label><label>Località<input name="location"></label><button class="primary wide" type="submit">Crea campagna</button></form></dialog>
+  <dialog id="import-modal"><form method="dialog" class="modal-card" id="import-form"><div class="modal-head"><div><span class="eyebrow">IMPORTAZIONE</span><h3>Carica CSV</h3></div><button class="close" value="cancel">×</button></div><label>File CSV<input name="file" type="file" accept=".csv,text/csv" required></label><label>Campagna<select name="campaign_id" class="campaign-select"><option value="">Nessuna campagna</option></select></label><button class="primary wide" type="submit">Importa contatti</button></form></dialog>
+  <div id="toast" role="status"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

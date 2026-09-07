@@ -28,7 +28,7 @@ export default function LoginForm() {
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="card w-full max-w-md p-6">
         <div className="text-center mb-6">
-          <div className="mx-auto w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl font-bold">TBC</div>
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl font-bold">SWA</div>
           <h1 className="mt-3 text-xl font-semibold">SWA Housekeeping</h1>
           <p className="text-sm text-gray-500">Area operatori · Report interventi</p>
         </div>
